@@ -1,3 +1,4 @@
+import renderData from "./renderData";
 
 const renderBooks = (books) => {
 
@@ -26,50 +27,17 @@ const renderBooks = (books) => {
                 accordBody.style.display = "flex";
                 accordBody.style.flexWrap = "wrap";
        
-                for (let book of books[types]) { 
+                for (let book of books[types]) {
 
-                    const bookArea = document.createElement('div');
-                    bookArea.className = "bookArea";
-                    bookArea.style.width = "250px";
-                    bookArea.style.padding = "20px";
-                    
-                    const h5 = document.createElement('h5');
-                    h5.textContent = book.name;
-        
-                    const ul = document.createElement('ul');
-        
-                    const liISBN = document.createElement('li');
-                    liISBN.style.listStyle = "none";
-                    liISBN.textContent = `ISBN: ${book.ISBN}`;
-                    ul.appendChild(liISBN);
-        
-                    const liYear = document.createElement('li');
-                    liYear.textContent = `Metai: ${book.year}`;
-                    liYear.style.listStyle = "none";
-                    ul.appendChild(liYear);
-        
-                    const liPages = document.createElement('li');
-                    liPages.textContent = `Puslapiai: ${book.pages}`;
-                    liPages.style.listStyle = "none";
-                    ul.appendChild(liPages);
-        
-                    const liPrice = document.createElement('li');
-                    liPrice.textContent = `Kaina: ${book.price} €`;
-                    liPrice.style.listStyle = "none";
-                    ul.appendChild(liPrice);
-        
-                    bookArea.appendChild(h5);
-                    bookArea.appendChild(ul);
-                    accordBody.appendChild(bookArea);
-
+                    accordBody.appendChild(renderData(book));
                 }
         
                accordHeader.appendChild(button);
                accordCollapse.appendChild(accordBody);
                accordItem.appendChild(accordHeader);
                accordItem.appendChild(accordCollapse);
-               accordion.appendChild(accordItem);
-        
+               //accordion.appendChild(accordItem);
+                document.querySelector('.accordion').appendChild(accordItem);
             }
 }
 export default renderBooks;

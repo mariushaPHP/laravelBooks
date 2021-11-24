@@ -3129,12 +3129,33 @@ var accordion = function accordion(books) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _accordion__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./accordion */ "./src/accordion.js");
 /* harmony import */ var _data__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./data */ "./src/data.js");
+/* harmony import */ var _shoppingCart__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./shoppingCart */ "./src/shoppingCart.js");
+
 
 
 
 __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.esm.js");
 
 (0,_accordion__WEBPACK_IMPORTED_MODULE_0__["default"])(_data__WEBPACK_IMPORTED_MODULE_1__["default"]);
+(0,_shoppingCart__WEBPACK_IMPORTED_MODULE_2__["default"])(_data__WEBPACK_IMPORTED_MODULE_1__["default"]);
+/*
+const btn = document.querySelectorAll('.btn');
+const bookArray = [];
+for(let i=0; i<btn.length; i++){
+
+    btn[i].addEventListener('click', () => {
+        //console.log(document.querySelectorAll('h5')[i].textContent);
+            JSON.parse(localStorage.getItem(bookArray));
+            //const value = JSON.parse(localStorage.getItem(bookArray))
+            bookArray.push(document.querySelectorAll('h5')[i].textContent);
+            console.log(bookArray);
+        //}
+
+        localStorage.setItem('bookArray', JSON.stringify(bookArray));
+        btn[i].style.color = 'red';
+    })
+
+}*/
 
 /***/ }),
 
@@ -3248,11 +3269,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _renderData__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./renderData */ "./src/renderData.js");
 function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
 
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+
 
 var renderBooks = function renderBooks(books) {
   for (var types in books) {
@@ -3281,32 +3305,7 @@ var renderBooks = function renderBooks(books) {
     try {
       for (_iterator.s(); !(_step = _iterator.n()).done;) {
         var book = _step.value;
-        var bookArea = document.createElement('div');
-        bookArea.className = "bookArea";
-        bookArea.style.width = "250px";
-        bookArea.style.padding = "20px";
-        var h5 = document.createElement('h5');
-        h5.textContent = book.name;
-        var ul = document.createElement('ul');
-        var liISBN = document.createElement('li');
-        liISBN.style.listStyle = "none";
-        liISBN.textContent = "ISBN: ".concat(book.ISBN);
-        ul.appendChild(liISBN);
-        var liYear = document.createElement('li');
-        liYear.textContent = "Metai: ".concat(book.year);
-        liYear.style.listStyle = "none";
-        ul.appendChild(liYear);
-        var liPages = document.createElement('li');
-        liPages.textContent = "Puslapiai: ".concat(book.pages);
-        liPages.style.listStyle = "none";
-        ul.appendChild(liPages);
-        var liPrice = document.createElement('li');
-        liPrice.textContent = "Kaina: ".concat(book.price, " \u20AC");
-        liPrice.style.listStyle = "none";
-        ul.appendChild(liPrice);
-        bookArea.appendChild(h5);
-        bookArea.appendChild(ul);
-        accordBody.appendChild(bookArea);
+        accordBody.appendChild((0,_renderData__WEBPACK_IMPORTED_MODULE_0__["default"])(book));
       }
     } catch (err) {
       _iterator.e(err);
@@ -3317,12 +3316,94 @@ var renderBooks = function renderBooks(books) {
     accordHeader.appendChild(button);
     accordCollapse.appendChild(accordBody);
     accordItem.appendChild(accordHeader);
-    accordItem.appendChild(accordCollapse);
-    accordion.appendChild(accordItem);
+    accordItem.appendChild(accordCollapse); //accordion.appendChild(accordItem);
+
+    document.querySelector('.accordion').appendChild(accordItem);
   }
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (renderBooks);
+
+/***/ }),
+
+/***/ "./src/renderData.js":
+/*!***************************!*\
+  !*** ./src/renderData.js ***!
+  \***************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+var renderData = function renderData(book) {
+  var bookArea = document.createElement('div');
+  bookArea.className = "bookArea";
+  bookArea.style.width = "250px";
+  bookArea.style.padding = "20px";
+  var h5 = document.createElement('h5');
+  h5.textContent = book.name;
+  var btn = document.createElement('btn');
+  btn.className = "btn btn-primary";
+  btn.innerHTML = "Pirkti";
+  var ul = document.createElement('ul');
+  var liISBN = document.createElement('li');
+  liISBN.style.listStyle = "none";
+  liISBN.textContent = "ISBN: ".concat(book.ISBN);
+  ul.appendChild(liISBN);
+  var liYear = document.createElement('li');
+  liYear.textContent = "Metai: ".concat(book.year);
+  liYear.style.listStyle = "none";
+  ul.appendChild(liYear);
+  var liPages = document.createElement('li');
+  liPages.textContent = "Puslapiai: ".concat(book.pages);
+  liPages.style.listStyle = "none";
+  ul.appendChild(liPages);
+  var liPrice = document.createElement('li');
+  liPrice.textContent = "Kaina: ".concat(book.price, " \u20AC");
+  liPrice.style.listStyle = "none";
+  ul.appendChild(liPrice);
+  bookArea.appendChild(btn);
+  bookArea.appendChild(h5);
+  bookArea.appendChild(ul); //accordBody.appendChild(bookArea);
+  //document.querySelector('.accordBody').appendChild(bookArea);
+
+  return bookArea;
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (renderData);
+
+/***/ }),
+
+/***/ "./src/shoppingCart.js":
+/*!*****************************!*\
+  !*** ./src/shoppingCart.js ***!
+  \*****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+var shoppingCart = function shoppingCart(books) {
+  var btn = document.querySelectorAll('.btn');
+
+  var _loop = function _loop(i) {
+    btn[i].addEventListener('click', function () {
+      var Array = [];
+      if (JSON.parse(localStorage.getItem('bookArray')) != null) Array = JSON.parse(localStorage.getItem('bookArray'));
+      Array.push(document.querySelectorAll('h5')[i].textContent);
+      console.log(Array);
+      localStorage.setItem('bookArray', JSON.stringify(Array));
+    });
+  };
+
+  for (var i = 0; i < btn.length; i++) {
+    _loop(i);
+  }
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (shoppingCart);
 
 /***/ }),
 
